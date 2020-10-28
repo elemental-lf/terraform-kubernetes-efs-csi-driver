@@ -9,3 +9,9 @@ variable "annotations" {
   type        = map(string)
   default     = {}
 }
+
+variable "create_csi_driver_resource" {
+  description = "Create CSIDriver Kubernetes resource"
+  type        = bool
+  default     = true
+}
