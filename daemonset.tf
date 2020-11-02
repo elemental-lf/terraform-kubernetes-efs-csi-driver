@@ -66,6 +66,8 @@ resource "kubernetes_daemonset" "efs" {
           }
 
           port {
+            # NB: Changes to host_port are ignore (see below) because they led to unnecessary diffs probably due to
+            # a bug in the Kubernetes provider.
             name           = "healthz"
             container_port = 9809
             protocol       = "TCP"
@@ -183,5 +185,9 @@ resource "kubernetes_daemonset" "efs" {
         priority_class_name = "system-node-critical"
       }
     }
+  }
+
+  lifecycle {
+    ignore_changes = [spec.0.template.0.spec.0.container.0.port.0.host_port]
   }
 }
